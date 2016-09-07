@@ -16,7 +16,11 @@
 #include <iostream>
 #include <sstream>
 #include <random>
-#include <zlib.h>
+
+#ifdef USE_ZLIB
+	#include <zlib.h>
+#endif
+
 #include <SFML/Graphics.hpp>
 
 #include "Log.h"

@@ -36,7 +36,7 @@ struct TexturePack
 	{
 		if(!m_texture.create(width, height))
 		{
-			logError() << "Could not create Texture Atlas\n";
+			moony::logError() << "Could not create Texture Atlas\n";
 			abort();
 		}
 
@@ -92,7 +92,7 @@ struct TexturePack
 				// Update the texture with the image data and the position of the node
 				m_texture.update(subimage.m_image, m_node_list[index].m_rect.left, m_node_list[index].m_rect.top);
 
-				logDebug() << "Placing " << subimage.m_name
+				moony::logDebug() << "Placing " << subimage.m_name
 					<< " at " << m_node_list[index].m_rect.left << ", " << m_node_list[index].m_rect.top << "\n";
 
 				return true;

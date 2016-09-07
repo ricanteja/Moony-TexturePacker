@@ -2,11 +2,11 @@
 #define TEXTUREDIRECTORY_H
 
 
-#if WIN32
-#include <Windows.h>
+#ifdef _WIN32
+	#include <Windows.h>
 #else
 // Haven't implemented Linux version yet
-#include <dirent.h>
+	#include <dirent.h>
 #endif
 
 #include <vector>
@@ -22,7 +22,7 @@ std::string getCurrentDirectory()
 {
 	char current_dir[2048];
 
-#if WIN32
+#ifdef _WIN32
 	GetCurrentDirectoryA(2048, current_dir);
 #else
 	// Linux code
@@ -37,7 +37,7 @@ void buildDirectoryList(std::string current_dir, std::vector<std::string>& dir_l
 	dir_list.push_back(current_dir);
 	std::string search_dir = current_dir + "\\*.*";
 
-#if WIN32
+#ifdef _WIN32
 	WIN32_FIND_DATAA fileData;
 	HANDLE fileHandle = FindFirstFileA(search_dir.c_str(), &fileData);
 
@@ -85,7 +85,7 @@ std::vector<SubImage> getImageList(std::string directory)
 	std::vector<SubImage> subimage_list;
 	std::string search_dir = directory + "\\*.*";
 
-#if WIN32
+#ifdef _WIN32
 	WIN32_FIND_DATAA fileData;
 	// 
 	HANDLE fileHandle = FindFirstFileA(search_dir.c_str(), &fileData);
@@ -113,7 +113,7 @@ std::vector<SubImage> getImageList(std::string directory)
 
 						// If the image failed to load then output an error message
 						if(!subimage.m_image.loadFromFile(directory + "\\" + fileData.cFileName))
-							logError() << "Failed to load image " << fileData.cFileName << "\n";
+							moony::logError() << "Failed to load image " << fileData.cFileName << "\n";
 						else
 							// Else put the image on the list of images
 							subimage_list.push_back(subimage);
@@ -127,7 +127,7 @@ std::vector<SubImage> getImageList(std::string directory)
 		// If there was a problem getting the first file on Windows, print an error message
 		char message[2048];
 		FormatMessageA(0, 0, GetLastError(), 0, message, 2048, NULL);
-		logError() << message;
+		moony::logError() << message;
 	}
 
 #else
